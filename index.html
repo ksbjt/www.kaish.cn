@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- 浏览器标签上显示的网站标题 -->
+    <title>开水的主页</title>
+    <!-- 网站介绍 -->
+    <meta name="description" content="开水的介绍">
+    <!-- 网站关键字 -->
+    <meta name="keywords" content="开水,个人主页,程序员">
+    <!-- 浏览器标签上显示的图标 -->
+    <link rel="icon" type="image/ico" href="./static/images/logo.ico">
+    <!-- 样式文件 -->
+    <link rel="stylesheet" href="./static/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+    <link rel="stylesheet" href="./static/style.css?v=1.2.0">
+    <link rel="stylesheet" href="./static/APlayer-1.10.1/dist/APlayer.min.css">
+
+    <!-- 自定义设置 -->
+    <style>
+        body {
+            /*背景图片URL 可使用随机图片API */
+            background-image: url("./static/images/bg.jpg");
+        }
+
+        .photo-bg {
+            /* 卡片左侧图片 */
+            background-image: url("./static/images/fbg.jpg");
+        }
+
+        .kz-video {
+            /* 背景视频, none: 不显示 unset 显示 */
+            display: none;
+        }
+    </style>
+    <script>
+        // 音乐设置
+        let meting_music_api = "https://api.injahow.cn/meting/";    // meting api
+        let music_server = "netease";                               // 音乐服务: 网易云 netease 参见 meting api支持的服务
+        let music_type = "song";                                    // 歌曲类型: 歌单playlist 单首歌曲 song  专辑 album
+        let music_id = "1332752193";                                // 歌单ID或歌曲ID或者专辑ID 20173709 29732992
+        let music_order = "list";                                   // 音频循环顺序, 顺序播放: 'list', 随机播放: 'random'
+        let music_mini = false;                                     // mini模式 吸底模式开启后此选项实效 true / false
+        let music_fixed = false;                                    // 吸底模式
+        let music_volume = 0.5;                                     // 默认音量
+        let music_autoplay = false;                                 // 自动播放
+        let music_loop = "all";                                     // 音频循环播放, 可选值: 'all', 'one', 'none' , 分别为全部循环, 单曲循环, 不循环
+
+        // 一言设置
+        // let hitokoto_api = "https://v1.hitokoto.cn"; // 一言API
+    </script>
+    <!-- end 自定义设置 -->
+</head>
+
+<body>
+    <!-- 
+    <div class="kz-video">
+        <video src="./static/video/xxx.mp4" autoplay="autoplay" loop muted playsinline="" webkit-playsinline=""></video>
+    </div>
+    -->
+    <div id="main" class="container">
+        <div class="row my-card justify-content-center">
+            <div class="col-lg-4 photo-bg"></div>
+            <div class="col-lg-8 card">
+                <!-- 大标题 -->
+                <h1>Kaish (开水)</h1>
+                <!-- 标题下的一段话 -->
+                <p>
+                    说太多不如沉默, 想太多我也会难过.
+                </p>
+                <!-- <p id="hitokoto_text">:D 一言获取中...</p> -->
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- 导航按钮组 -->
+                        <button data-href="//blog.kaish.dev" data-title="Blog"
+                            data-window="newtab" data-anim="4" data-area-w="80%" data-area-h="90%" data-shade="false"
+                            class="kz-nav-btn btn btn-secondary col-lg-4">Blog</button>
+
+                        <button data-href="//music.163.com/#/playlist?id=5028688879" data-title="Netease" data-window="pop" data-anim="4"
+                            data-area-w="80%" data-area-h="90%" data-shade="false"
+                            class="kz-nav-btn btn btn-primary col-lg-4">Netease</button>
+
+                        <button data-href="//blog.kaish.dev/about" data-title="About" data-window="pop"
+                            data-anim="4" data-area-w="80%" data-area-h="90%" data-shade="false"
+                            class="kz-nav-btn btn btn-success col-lg-4">About</button>
+                        <!-- end 导航按钮组 -->
+                    </div>
+                </div>
+                <!-- aplayer inner -->
+                <div id="aplayer-inner" class="aplayer"></div>
+                <!-- end aplayer inner -->
+                <ul class="social mt-1">
+                    <li><a href="https://qm.qq.com/q/IPmTb1ZWwe"><i class="fab fa-qq " aria-hidden="true"></i></a></li>
+                    <li><a href="https://github.com/ksbjt"><i class="fab fa-github" aria-hidden="true"></i></a></li>
+                    <li><a href="https://steamcommunity.com/profiles/76561199267457975"><i class="fab fa-steam"
+                                aria-hidden="true"></i></a></li>
+                    <li><a href="https://t.me/kaishuiya"><i class="fab fa-telegram" aria-hidden="true"></i></a></li>
+                    <li><a href="https://discord.com/users/977917095260061697"><i class="fab fa-discord"
+                                aria-hidden="true"></i></a></li>
+                </ul>
+
+                <footer>
+                    <p>
+                        降低所有期待才会变得平静快乐.
+                        <br>
+                    </p>
+                </footer>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- aplayer -->
+    <div id="aplayer-fixed" class="aplayer"></div>
+    <script src="./static/js/jquery.min.js"></script>
+    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+    <script src="./static/APlayer-1.10.1/dist/APlayer.min.js"></script>
+    <script src="./static/Meting.min.js"></script>
+    <!-- end_aplayer -->
+    <script src="./static/js/popper.min.js"></script>
+    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script> -->
+    <script defer src="./static/js/bootstrap.min.js"></script>
+    <!-- <script defer src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script> -->
+    <script src="./static/layer-v3.5.1/layer/layer.js"></script>
+    <script src="./static/main.js"></script>
+
+</html>
