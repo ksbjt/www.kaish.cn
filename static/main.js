@@ -4,18 +4,24 @@ layer.config({
   skin: "layer-ext-kzhomepage",
 });
 
-// Nav buttons
-$(".kz-nav-btn").on("click", function () {
-  let btn = $(this);
-  let type = btn.data("window"); // pop current newtab
-  let content = btn.data("href");
+const handleNavAction = function (btn) {
+  const type = String(btn.attr("data-window") || "").trim().toLowerCase(); // pop current newtab
+  const rawContent = String(btn.attr("data-href") || "").trim();
+  const content = rawContent.startsWith("//")
+    ? `${window.location.protocol}${rawContent}`
+    : rawContent;
+
+  if (!content) {
+    return;
+  }
+
   switch (type) {
-    case "pop":
-      let title = btn.data("title");
-      let shadeClose = btn.data("shade") === "true" ? false : true;
-      let anim = btn.data("anim") ? btn.data("anim") * 1 : 4;
-      let area_w = btn.data("area-w") ? btn.data("area-w") : "80%";
-      let area_h = btn.data("area-h") ? btn.data("area-h") : "90%";
+    case "pop": {
+      const title = btn.attr("data-title");
+      const shadeClose = btn.attr("data-shade") === "true";
+      const anim = btn.attr("data-anim") ? btn.attr("data-anim") * 1 : 4;
+      const area_w = btn.attr("data-area-w") ? btn.attr("data-area-w") : "80%";
+      const area_h = btn.attr("data-area-h") ? btn.attr("data-area-h") : "90%";
       layer.open({
         type: 2,
         title: title,
@@ -25,15 +31,40 @@ $(".kz-nav-btn").on("click", function () {
         isOutAnim: false,
         area: [area_w, area_h],
         content: content,
+        success: function (layero) {
+          // Block iframe pages from auto opening new tabs or escaping to top window.
+          const iframe = layero.find("iframe");
+          if (iframe && iframe.length) {
+            iframe.attr("sandbox", "allow-forms allow-scripts allow-same-origin");
+            iframe.attr("referrerpolicy", "strict-origin-when-cross-origin");
+          }
+        },
       });
       break;
+    }
     case "current":
-      window.location = content;
+      window.location.assign(content);
       break;
     case "newtab":
-      window.open("_blank").location = content;
+      window.open(content, "_blank", "noopener,noreferrer");
+      break;
+    default:
       break;
   }
+};
+
+// Nav buttons (touch + click, deduplicated for mobile browsers)
+let lastTouchAt = 0;
+$(document).on("touchend click", ".kz-nav-btn", function (event) {
+  if (event.type === "touchend") {
+    lastTouchAt = Date.now();
+    event.preventDefault();
+  } else if (Date.now() - lastTouchAt < 500) {
+    return;
+  }
+
+  event.stopPropagation();
+  handleNavAction($(this));
 });
 
 $.ajax({
@@ -129,11 +160,16 @@ $.ajax({
   },
 });
 
-fetch(hitokoto_api)
-  .then((response) => response.json())
-  .then((data) => {
-    const hitokoto = document.getElementById("hitokoto_text");
-    hitokoto.href = "https://hitokoto.cn/?uuid=" + data.uuid;
-    hitokoto.innerText = data.hitokoto;
-  })
-  .catch(console.error);
+if (typeof hitokoto_api === "string" && hitokoto_api) {
+  fetch(hitokoto_api)
+    .then((response) => response.json())
+    .then((data) => {
+      const hitokoto = document.getElementById("hitokoto_text");
+      if (!hitokoto) {
+        return;
+      }
+      hitokoto.href = "https://hitokoto.cn/?uuid=" + data.uuid;
+      hitokoto.innerText = data.hitokoto;
+    })
+    .catch(console.error);
+}
