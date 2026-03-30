@@ -23,21 +23,43 @@ const handleNavAction = function (btn) {
       const area_w = btn.attr("data-area-w") ? btn.attr("data-area-w") : "80%";
       const area_h = btn.attr("data-area-h") ? btn.attr("data-area-h") : "90%";
       layer.open({
-        type: 2,
+        type: 1,
         title: title,
         shadeClose: shadeClose,
         anim: anim,
         closeBtn: 2,
         isOutAnim: false,
         area: [area_w, area_h],
-        content: content,
+        content: '<div class="kz-pop-frame-shell"></div>',
         success: function (layero) {
-          // Block iframe pages from auto opening new tabs or escaping to top window.
-          const iframe = layero.find("iframe");
-          if (iframe && iframe.length) {
-            iframe.attr("sandbox", "allow-forms allow-scripts allow-same-origin");
-            iframe.attr("referrerpolicy", "strict-origin-when-cross-origin");
-          }
+          const contentBox = layero.find(".layui-layer-content");
+          const frameShell = layero.find(".kz-pop-frame-shell");
+          const iframe = $(
+            '<iframe class="kz-pop-frame" scrolling="auto" allowtransparency="true" frameborder="0"></iframe>'
+          );
+
+          contentBox.css({
+            padding: 0,
+            overflow: "hidden",
+          });
+          frameShell.css({
+            width: "100%",
+            height: "100%",
+          });
+          iframe.css({
+            display: "block",
+            width: "100%",
+            height: "100%",
+            border: "none",
+          });
+
+          // Apply sandbox before navigation so third-party pages cannot replace the top window.
+          iframe.attr("sandbox", "allow-forms allow-scripts allow-same-origin");
+          iframe.attr("referrerpolicy", "strict-origin-when-cross-origin");
+          iframe.attr("title", title || "popup-frame");
+
+          frameShell.append(iframe);
+          iframe.attr("src", content);
         },
       });
       break;
