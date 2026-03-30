@@ -317,9 +317,17 @@ footer p {
 }
 
 @media(max-width: 767px) {
+    html,
+    body {
+        min-height: 100vh;
+        min-height: 100svh;
+        overscroll-behavior-y: none;
+    }
+
     body {
         background-attachment: scroll;
-        background-position: center top;
+        background-position: center center;
+        overflow-x: hidden;
     }
 
     body::before {
@@ -333,7 +341,7 @@ footer p {
     }
 
     #main.container {
-        max-width: 440px;
+        max-width: 420px;
         margin: 0 auto;
     }
 
@@ -360,16 +368,24 @@ footer p {
     .btn {
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
+        padding: 11px 28px;
     }
 
     .social {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
+        margin-bottom: 10px;
     }
 
     .social li {
         float: none;
+        margin-right: 12px;
+    }
+
+    .social .fa {
+        width: 34px;
+        height: 34px;
     }
 
     #aplayer-inner,
@@ -397,14 +413,26 @@ footer p {
 }
 
 @media (max-width: 767px) and (orientation: portrait) {
+    html {
+        background: #9aafc6 url("./images/bg.jpg") center center / cover no-repeat fixed;
+    }
+
+    body {
+        background-image: none !important;
+        background-color: transparent;
+    }
+
     #main.container {
         min-height: 100vh;
         min-height: 100svh;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding-top: 18px;
-        padding-bottom: 18px;
+        box-sizing: border-box;
+        padding-top: max(12px, env(safe-area-inset-top));
+        padding-bottom: max(12px, env(safe-area-inset-bottom));
+        padding-left: 12px;
+        padding-right: 12px;
     }
 
     #main .my-card {
@@ -413,12 +441,36 @@ footer p {
     }
 
     .photo-bg {
-        height: clamp(150px, 24svh, 210px);
-        background-position: center 22%;
+        height: clamp(132px, 20svh, 176px);
+        background-position: center 18%;
     }
 
     .card {
-        padding: 22px 20px 20px;
+        padding: 18px 18px 16px;
+    }
+
+    h1 {
+        font-size: 22px;
+        margin-bottom: 0.4em;
+    }
+
+    p,
+    footer p {
+        font-size: 13px;
+        line-height: 1.55;
+    }
+
+    .site-footer {
+        margin-top: 10px;
+    }
+
+    .site-motto {
+        margin-bottom: 4px;
+    }
+
+    .beian-links {
+        font-size: 11px;
+        line-height: 1.35;
     }
 }
 
