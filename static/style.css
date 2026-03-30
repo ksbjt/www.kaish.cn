@@ -332,6 +332,11 @@ footer p {
         transform: translateY(0);
     }
 
+    #main.container {
+        max-width: 440px;
+        margin: 0 auto;
+    }
+
     .photo-bg {
         height: 180px;
         border-radius: 18px 18px 0 0;
@@ -388,6 +393,32 @@ footer p {
     #kaygb-blog,
     #kaygb-mail {
         display: none;
+    }
+}
+
+@media (max-width: 767px) and (orientation: portrait) {
+    #main.container {
+        min-height: 100vh;
+        min-height: 100svh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 18px;
+        padding-bottom: 18px;
+    }
+
+    #main .my-card {
+        width: 100%;
+        margin: 0;
+    }
+
+    .photo-bg {
+        height: clamp(150px, 24svh, 210px);
+        background-position: center 22%;
+    }
+
+    .card {
+        padding: 22px 20px 20px;
     }
 }
 
